@@ -1,13 +1,12 @@
 import React from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import { Nav, Navbar } from 'react-bootstrap';
+import { Nav, Navbar, Image } from 'react-bootstrap';
 import { Button } from '@material-ui/core'
 import styled from 'styled-components';
 
 const Styles = styled.div`
   .navbar {
     background-color: white;
-    
   }
   .nav-item, navbar-brand {
     padding: 10px;
@@ -37,14 +36,16 @@ const NavigationBar = () => {
     return (
         <Styles>
             <Navbar fixed="top" expand="lg">
-                <Navbar.Brand href="/">LIBRARY</Navbar.Brand>
+                
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="ml-auto">
+                    <Nav className="m-auto">
                         <Nav.Item>
                             <Link to="/">Home</Link>
                         </Nav.Item>
-                        
+                        <Nav.Item>
+                          <Image src="images/paw.jpg" width={100} height={100} ></Image>
+                        </Nav.Item>
                         <Nav.Item>
                             <Link to="/login">Login</Link>
                         </Nav.Item>
