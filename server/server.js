@@ -30,6 +30,16 @@ server.get('/users', async (req, res) => {
     }
 })
 
+server.post('/users', async (req, res) => {
+    try {
+        console.log(req.body);
+        const user = await db.addUser(req.body)
+        
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 
 
 

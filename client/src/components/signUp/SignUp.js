@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -10,6 +10,9 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import axios from 'axios';
+
+const URL = "http://localhost:6868/";
 
 function Copyright() {
     return (
@@ -45,7 +48,37 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp() {
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [address, setAddress] = useState("");
+    const [phone, setPhone] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
     const classes = useStyles();
+
+    const handleSubmit = () => {
+        let data = new FormData();
+        data.append("name", firstName);
+        data.append("lastname", lastName);
+        data.append("phone_number", phone);
+        data.append("address", address);
+        data.append("mail", email);
+        data.append("username", username);
+        data.append("password", password);
+        var sendData = {
+            "name" : firstName,
+            "lastname" : lastName,
+            "phone_number" : phone,
+            "address" : address,
+            "mail" : email,
+            "username" : username,
+            "password" : password
+        }
+        axios.post(URL + 'users', sendData)
+            .then()
+            .catch(err => console.log(err));
+    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -65,6 +98,8 @@ export default function SignUp() {
                                 fullWidth
                                 id="firstName"
                                 label="First Name"
+                                value={firstName}
+                                onChange={(e) => setFirstName(e.target.value)}
                                 autoFocus
                             />
                         </Grid>
@@ -76,6 +111,8 @@ export default function SignUp() {
                                 id="lastName"
                                 label="Last Name"
                                 name="lastName"
+                                value={lastName}
+                                onChange={(e) => setLastName(e.target.value)}
                                 autoComplete="lname"
                             />
                         </Grid>
@@ -87,6 +124,8 @@ export default function SignUp() {
                                 id="email"
                                 label="Email Address"
                                 name="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                                 autoComplete="email"
                             />
                         </Grid>
@@ -98,7 +137,35 @@ export default function SignUp() {
                                 id="address"
                                 label="Address"
                                 name="address"
+                                value={address}
+                                onChange={(e) => setAddress(e.target.value)}
                                 autoComplete="address"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="phone"
+                                label="Phone number"
+                                name="phone"
+                                value={phone}
+                                onChange={(e) => setPhone(e.target.value)}
+                                autoComplete="phone"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="username"
+                                label="Username"
+                                name="username"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                autoComplete="username"
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -110,6 +177,8 @@ export default function SignUp() {
                                 label="Password"
                                 type="password"
                                 id="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                                 autoComplete="current-password"
                             />
                         </Grid>
@@ -126,6 +195,7 @@ export default function SignUp() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        onClick={handleSubmit}
                     >
                         Sign Up
           </Button>
