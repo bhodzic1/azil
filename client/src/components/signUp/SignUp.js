@@ -20,7 +20,7 @@ function Copyright() {
             {'Copyright © '}
             <Link color="inherit" href="https://material-ui.com/">
                 Your Website
-      </Link>{' '}
+            </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
         </Typography>
@@ -33,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        border: '2px solid #360606',
+        padding: '20px',
+        borderRadius: '15px'
     },
     avatar: {
         margin: theme.spacing(1),
@@ -45,6 +48,13 @@ const useStyles = makeStyles((theme) => ({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
+    textField: {
+        "&$focused": {
+            borderColor: "#360606"
+        },
+        focused: {}
+    }
+    
 }));
 
 export default function SignUp() {
@@ -58,14 +68,14 @@ export default function SignUp() {
     const classes = useStyles();
 
     const handleSubmit = () => {
-        let data = new FormData();
+        /*let data = new FormData();
         data.append("name", firstName);
         data.append("lastname", lastName);
         data.append("phone_number", phone);
         data.append("address", address);
         data.append("mail", email);
         data.append("username", username);
-        data.append("password", password);
+        data.append("password", password);*/
         var sendData = {
             "name" : firstName,
             "lastname" : lastName,
@@ -84,16 +94,20 @@ export default function SignUp() {
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
-                <Typography component="h1" variant="h5">
+                <Typography component="h1" variant="h5" color={"#360606"}>
                     Sign up
-        </Typography>
-                <form className={classes.form} noValidate>
+                </Typography>
+                <form className={classes.form} onSubmit={handleSubmit}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 autoComplete="fname"
-                                name="firstName"
                                 variant="outlined"
+                                InputProps={{
+                                    classes: {
+                                        input: classes.textField
+                                    }
+                                }}
                                 required
                                 fullWidth
                                 id="firstName"
@@ -110,7 +124,6 @@ export default function SignUp() {
                                 fullWidth
                                 id="lastName"
                                 label="Last Name"
-                                name="lastName"
                                 value={lastName}
                                 onChange={(e) => setLastName(e.target.value)}
                                 autoComplete="lname"
@@ -123,7 +136,6 @@ export default function SignUp() {
                                 fullWidth
                                 id="email"
                                 label="Email Address"
-                                name="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 autoComplete="email"
@@ -136,7 +148,6 @@ export default function SignUp() {
                                 fullWidth
                                 id="address"
                                 label="Address"
-                                name="address"
                                 value={address}
                                 onChange={(e) => setAddress(e.target.value)}
                                 autoComplete="address"
@@ -149,7 +160,6 @@ export default function SignUp() {
                                 fullWidth
                                 id="phone"
                                 label="Phone number"
-                                name="phone"
                                 value={phone}
                                 onChange={(e) => setPhone(e.target.value)}
                                 autoComplete="phone"
@@ -162,7 +172,6 @@ export default function SignUp() {
                                 fullWidth
                                 id="username"
                                 label="Username"
-                                name="username"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
                                 autoComplete="username"
@@ -173,19 +182,12 @@ export default function SignUp() {
                                 variant="outlined"
                                 required
                                 fullWidth
-                                name="password"
                                 label="Password"
                                 type="password"
                                 id="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 autoComplete="current-password"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <FormControlLabel
-                                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                                label="I want to receive inspiration, marketing promotions and updates via email."
                             />
                         </Grid>
                     </Grid>
@@ -195,15 +197,14 @@ export default function SignUp() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        onClick={handleSubmit}
                     >
                         Sign Up
-          </Button>
+                    </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
                             <Link href="/login" variant="body2">
                                 Already have an account? Sign in
-              </Link>
+                            </Link>
                         </Grid>
                     </Grid>
                 </form>

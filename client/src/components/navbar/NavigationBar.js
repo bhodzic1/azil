@@ -1,63 +1,180 @@
-import React from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
-import { Nav, Navbar, Image } from 'react-bootstrap';
-import { Button } from '@material-ui/core'
-import styled from 'styled-components';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  makeStyles,
+  Button,
+  IconButton,
+  Drawer,
+  Link,
+  MenuItem,
+} from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
+import React, { useState, useEffect } from "react";
+import { Link as RouterLink } from "react-router-dom";
 
-const Styles = styled.div`
-  .navbar {
-    background-color: white;
-  }
-  .nav-item, navbar-brand {
-    padding: 10px;
-  }
-  a, .navbar-brand, .navbar-nav .nav-link {
-    color: #bbb;
-    &:hover {
-      color: red;
-      text-decoration: none;
-    }
-  }
-  .navbar-brand {
-    font-size: 30px;
-    font-weight: bold
-  }
-`;
+const headersData = [
+  {
+    label: "Listings",
+    href: "/listings",
+  },
+  {
+    label: "My Account",
+    href: "/account",
+  },
+  {
+    label: "Login",
+    href: "/login",
+  },
+];
 
-const NavigationBar = () => {
-    const history = useHistory();
+const useStyles = makeStyles(() => ({
+  header: {
+    backgroundColor: "#360606",
+    paddingRight: "79px",
+    paddingLeft: "118px",
+    "@media (max-width: 900px)": {
+      paddingLeft: 0,
+    },
+  },
+  logo: {
+    fontFamily: "Work Sans, sans-serif",
+    fontWeight: 600,
+    color: "#FFFEFE",
+    textAlign: "left",
+  },
+  menuButton: {
+    fontFamily: "Open Sans, sans-serif",
+    fontWeight: 700,
+    size: "18px",
+    marginLeft: "38px",
+  },
+  toolbar: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  drawerContainer: {
+    padding: "20px 30px",
+  },
+}));
 
-    const handleLogOut = () => {
-        /*logout();
-        history.push('/');
-        window.location.reload();*/
-    }
+export default function NavigationBar() {
+  const { header, logo, menuButton, toolbar, drawerContainer } = useStyles();
+
+  const [state, setState] = useState({
+    mobileView: false,
+    drawerOpen: false,
+  });
+
+  const { mobileView, drawerOpen } = state;
+
+  useEffect(() => {
+    const setResponsiveness = () => {
+      return window.innerWidth < 900
+        ? setState((prevState) => ({ ...prevState, mobileView: true }))
+        : setState((prevState) => ({ ...prevState, mobileView: false }));
+    };
+
+    setResponsiveness();
+
+    window.addEventListener("resize", () => setResponsiveness());
+
+    return () => {
+      window.removeEventListener("resize", () => setResponsiveness());
+    };
+  }, []);
+
+  const displayDesktop = () => {
+    return (
+      <Toolbar className={toolbar}>
+        {femmecubatorLogo}
+        <div>{getMenuButtons()}</div>
+      </Toolbar>
+    );
+  };
+
+  const displayMobile = () => {
+    const handleDrawerOpen = () =>
+      setState((prevState) => ({ ...prevState, drawerOpen: true }));
+    const handleDrawerClose = () =>
+      setState((prevState) => ({ ...prevState, drawerOpen: false }));
 
     return (
-        <Styles>
-            <Navbar fixed="top" expand="lg">
-                
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="m-auto">
-                        <Nav.Item>
-                            <Link to="/">Home</Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                          <Image src="images/paw.jpg" width={100} height={100} ></Image>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Link to="/login">Login</Link>
-                        </Nav.Item>
-                    
-                    
-                        <Button onClick={() => handleLogOut()}>Log out</Button>
-                        
-                    </Nav>
-                </Navbar.Collapse>
-            </Navbar>
-        </Styles >
-    )
-}
+      <Toolbar>
+        <IconButton
+          {...{
+            edge: "start",
+            color: "inherit",
+            "aria-label": "menu",
+            "aria-haspopup": "true",
+            onClick: handleDrawerOpen,
+          }}
+        >
+          <MenuIcon />
+        </IconButton>
 
-export default NavigationBar;
+        <Drawer
+          {...{
+            anchor: "left",
+            open: drawerOpen,
+            onClose: handleDrawerClose,
+          }}
+        >
+          <div className={drawerContainer}>{getDrawerChoices()}</div>
+        </Drawer>
+
+        <div>{femmecubatorLogo}</div>
+      </Toolbar>
+    );
+  };
+
+  const getDrawerChoices = () => {
+    return headersData.map(({ label, href }) => {
+      return (
+        <Link
+          {...{
+            component: RouterLink,
+            to: href,
+            color: "inherit",
+            style: { textDecoration: "none" },
+            key: label,
+          }}
+        >
+          <MenuItem>{label}</MenuItem>
+        </Link>
+      );
+    });
+  };
+
+  const femmecubatorLogo = (
+    <Typography variant="h6" component="h1" className={logo}>
+      Femmecubator
+    </Typography>
+  );
+
+  const getMenuButtons = () => {
+    return headersData.map(({ label, href }) => {
+      return (
+        <Button
+          {...{
+            key: label,
+            color: "inherit",
+            to: href,
+            component: RouterLink,
+            className: menuButton,
+          }}
+        >
+          {label}
+        </Button>
+      );
+    });
+  };
+
+  return (
+    <header>
+      <AppBar className={header}>
+        {mobileView ? displayMobile() : displayDesktop()}
+      </AppBar>
+    </header>
+  );
+}
