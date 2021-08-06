@@ -4,11 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Router from './components/Router';
+import { AzilProvider } from './context/AzilContext';
 
 ReactDOM.render(
-  <React.StrictMode>
+  <AzilProvider>
     <Router />
-  </React.StrictMode>,
+  </AzilProvider>
+  ,
   document.getElementById('root')
 );
 
