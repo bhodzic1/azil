@@ -28,6 +28,22 @@ function getAllAnimals () {
     return db('animals').select("id", "category", "race", "age", "health");
 }
 
+function getUserByLogin (username, password) {
+    return db('users').where({ username: username, password: password }).first();
+}
+
+function getUserByLoginEmail (mail, password) {
+    return db('users').where({ mail: mail, password: password }).first();
+}
+
+function getAdminByLogin (username, password) {
+    return db('employees').where({ username: username, password: password }).first();
+}
+
+function getAdminByLoginEmail (mail, password) {
+    return db('employees').where({ mail: mail, password: password }).first();
+}
+
 
 module.exports = {
     find,
@@ -35,5 +51,9 @@ module.exports = {
     addUser,
     addAnimal,
     getAnimalById,
-    getAllAnimals
+    getAllAnimals,
+    getUserByLogin,
+    getUserByLoginEmail,
+    getAdminByLogin,
+    getAdminByLoginEmail
 }

@@ -15,6 +15,39 @@ server.use('/', routes)
 server.use(fileUpload());
 
 
+server.post('/login', async (req, res) => {
+    let username = req.body.username;
+    let password = req.body.password;
+    try {
+        if (username) {
+            let userLogin = await db.getUserByLogin(username, password);
+            let userEmail = await db.getUserByLoginEmail(username, password);
+            let admin = await db.getAdminByLogin(username, password);
+            if (userLogin) {
+                let user = {
+                    "user": userLogin,
+                    "role": "User"
+                }
+                res.json({ user });
+            } else if (admin) {
+                let user = {
+                    "user": admin,
+                    "role": "Admin"
+                }
+                res.json({ user });
+            } else if (userEmail) {
+                let user = {
+                    "user": userEmail,
+                    "role": "User"
+                }
+                res.json({ user });
+            } else res.end("False");
+        }
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 server.get('/employees', async (req, res) => {
     try {
         const employees = await db.find();
@@ -68,6 +101,16 @@ server.get('/animals', async (req, res) => {
     try {
         const animals = await db.getAllAnimals();
         return res.status(200).json({ animals });
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+server.get('/animal/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const animal = await db.getAnimalById(id);
+        return res.status(200).json({ animal });
     } catch (error) {
         console.log(error)
     }
