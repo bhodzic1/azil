@@ -10,8 +10,8 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.2.1",
     "file-type": "^16.5.0",
-    "knex": "^0.95.6",
-    "node-pre-gyp": "^0.17.0"
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.95.6"
   },
   "devDependencies": {
     "nodemon": "^2.0.9"

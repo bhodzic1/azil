@@ -6,6 +6,7 @@ var cors = require('cors')
 const server = express();
 var routes = require('./routes/index');
 const db = require('./data/db-config');
+const jwt = require("jsonwebtoken");
 
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
