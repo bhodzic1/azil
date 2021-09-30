@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
@@ -25,21 +26,30 @@ server.post('/login', async (req, res) => {
             let userEmail = await db.getUserByLoginEmail(username, password);
             let admin = await db.getAdminByLogin(username, password);
             if (userLogin) {
+                const userToken = { user: userLogin }
+                const accessToken = jwt.sign(userToken, process.env.ACCESS_TOKEN_SECRET)
                 let user = {
                     "user": userLogin,
-                    "role": "User"
+                    "role": "User",
+                    "token": accessToken
                 }
                 res.json({ user });
             } else if (admin) {
+                const userToken = { user: admin }
+                const accessToken = jwt.sign(userToken, process.env.ACCESS_TOKEN_SECRET)
                 let user = {
                     "user": admin,
-                    "role": "Admin"
+                    "role": "Admin",
+                    "token": accessToken
                 }
                 res.json({ user });
             } else if (userEmail) {
+                const userToken = { user: userEmail }
+                const accessToken = jwt.sign(userToken, process.env.ACCESS_TOKEN_SECRET)
                 let user = {
                     "user": userEmail,
-                    "role": "User"
+                    "role": "User",
+                    "token": accessToken
                 }
                 res.json({ user });
             } else res.end("False");

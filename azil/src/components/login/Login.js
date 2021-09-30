@@ -68,7 +68,7 @@ const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const classes = useStyles();
-    const { setRole, setUser, setLoggedIn } = useContext(AzilContext);
+    const { setRole, setUser, setLoggedIn, token, setToken } = useContext(AzilContext);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -77,9 +77,14 @@ const Login = () => {
         data.append("password", password);
         axios.post(LOGIN_URL, data)
             .then((response) => {
+                localStorage.setItem('token', response.data.user.token)
+                localStorage.setItem('role', response.data.user.role)
                 setLoggedIn(true);
                 setRole(response.data.user.role);
                 setUser(response.data.user.user);
+                const base64Url = response.data.user.token.split('.')[1];
+                const base64 = base64Url.replace('-', '+').replace('_', '/');
+                console.log(JSON.parse(window.atob(base64)));
             })
             .catch(err => console.log(err));
     }

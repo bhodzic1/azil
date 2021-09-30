@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Card, ListGroup } from 'react-bootstrap';
-import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
+import { Button, Card } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import { AzilContext } from '../../context/AzilContext';
@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
 
 const AnimalDetail = () => {
     const { id } = useParams();
-    const { animals } = useContext(AzilContext);
     const [animal, setAnimal] = useState();
     const [race, setRace] = useState("");
     const [image, setImage] = useState(null);

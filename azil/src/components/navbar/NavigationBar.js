@@ -3,7 +3,7 @@ import { Container, Nav, Navbar } from 'react-bootstrap';
 import { AzilContext } from '../../context/AzilContext';
 
 const NavigationBar = () => {
-  const { role, loggedIn } = useContext(AzilContext);
+  const { role, loggedIn, logOut } = useContext(AzilContext);
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
@@ -11,10 +11,11 @@ const NavigationBar = () => {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-end"> 
         <Nav>
-          <Nav.Link href="/adopts">My adopts</Nav.Link>
-          <Nav.Link href="/profile">Profile</Nav.Link>
+          { loggedIn && <Nav.Link href="/adopts">My adopts</Nav.Link> }
+          { loggedIn && <Nav.Link href="/profile">Profile</Nav.Link> }
 
           { !loggedIn && <Nav.Link href="/login">Login</Nav.Link> }
+          { loggedIn && <Nav.Link href="/" onClick={logOut}>Log out</Nav.Link> }
         </Nav>
       </Navbar.Collapse>
       </Container>
