@@ -9,21 +9,26 @@ import RegisterAnimal from './registerAnimal/RegisterAnimal';
 import SignUp from './signUp/SignUp';
 import AnimalDetail from './animal/AnimalDetail';
 import { AzilContext } from '../context/AzilContext';
+import Profile from './profile/Profile';
+import AdoptionRequests from './adoption-list/AdoptionRequests';
 
 
 const Router = () => {
     const { role, loggedIn } = useContext(AzilContext);
+    
     return (
         <BrowserRouter>
             <NavigationBar />
             <Switch>
                 <Route path="/" component={ Home } exact />
                 <Route path="/about" component={ About } />
+                { role === "Admin" && <Route path="/requests" component={ AdoptionRequests } /> }
                 { !loggedIn &&  <Route path="/login" component={ Login } />}
                 
                 { !loggedIn && <Route path="/signup" component={ SignUp } /> }
                 { role === "Admin" && <Route path="/register-animal" component={ RegisterAnimal } /> }
                 <Route path="/:id/animal" component={ AnimalDetail } />
+                { role === "Admin" && <Route path="/:id/profile" component={ Profile } /> }
             </Switch>
         </BrowserRouter>
     )

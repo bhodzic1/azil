@@ -10,12 +10,28 @@ const IMAGES_URL = "http://localhost:6868/";
 const useStyles = makeStyles((theme) => ({
     container: {
         padding: '20px',
-        marginTop: theme.spacing(8),
         display: 'flex',
         width: '100%',
-        marginLeft: 'auto',
-        marginRight: 'auto'
     },
+    card: {
+        width: '60%',
+        marginLeft: '20%',
+        height: 'auto'
+    },
+    image: {
+        width: '50%',
+        float: 'left',
+        marginRight: '10px'
+    },
+    cardBody: {
+        
+    },
+    cardText: {
+        marginLeft: '3%'
+    },
+    groupButton: {
+        
+    }
 }));
 
 const AnimalDetail = () => {
@@ -26,6 +42,7 @@ const AnimalDetail = () => {
     const [category, setCategory] = useState("");
     const [age, setAge] = useState("");
     const [health, setHealth] = useState("");
+    const { addAdopt, loggedIn } = useContext(AzilContext);
     const classes = useStyles();
     
     useEffect(() => {
@@ -46,17 +63,20 @@ const AnimalDetail = () => {
 
     return (
         <div className={classes.container}>
-            <Card>
-                <Card.Header></Card.Header>
-                <Card.Body>
-                    <Card.Img className="authorImage" variant="top" src={IMAGES_URL + "img/" + id} />
-                    <Card.Title>{ category + " - " + race }</Card.Title>
-                    <Card.Text> Age: { age.toString() } </Card.Text>
+            <Card className={classes.card}>
+                <Card.Header>
+                <Card.Title>{ category + " - " + race }</Card.Title>
+                </Card.Header>
+                <Card.Body className={classes.cardBody}>
+                    <Card.Img className={classes.image} variant="top" src={IMAGES_URL + "img/" + id} />
+                    <Card.Title className={classes.cardText}>{ category + " - " + race }</Card.Title>
+                    <Card.Text className={classes.cardText}> Age: { age.toString() } </Card.Text>
                     <Card.Title>Zdravstveno stanje: </Card.Title>
                     <Card.Text> { health } </Card.Text>
-                    <Button variant="primary" className="groupButton" >Adopt</Button>
                     
+                    { loggedIn && <Button variant="primary" className={classes.groupButton} onClick={() => addAdopt(id, "wait")} >Adopt</Button> }
                 </Card.Body>
+                
             </Card>
         </div>
     )

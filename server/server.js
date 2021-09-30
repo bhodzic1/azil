@@ -77,9 +77,48 @@ server.get('/users', async (req, res) => {
     }
 })
 
+server.get('/profile/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const user = await db.getUserById(id);
+        return res.status(200).json({ user });
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+server.get('/requests', async (req, res) => {
+    try {
+        const requests = await db.getAdoptionRequests();
+        const adoptionRequests = [];
+        for (const element of requests) {
+            let animalId = await db.getAnimalById(element.animal);
+            let userId = await db.getUserById(element.user);
+            adoptionRequests.push({ animal: animalId, user: userId  })
+        };
+        return res.status(200).json({ adoptionRequests });
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 server.post('/users', async (req, res) => {
     try {
         const user = await db.addUser(req.body)
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+server.post('/adopt', async (req, res) => {
+    try {
+        const animal = await db.getAnimalFromAdoptions(req.body.animalId);
+        if (animal == undefined) {
+            const adopt = await db.addAdopt(req.body.userId, req.body.animalId, req.body.adopted)
+            res.end("Request succesfully sent!");
+        } else {
+            res.end("Animal already taken!");
+        }
         
     } catch (error) {
         console.log(error)

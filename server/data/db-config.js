@@ -20,12 +20,20 @@ function addAnimal (data, animal) {
     return db('animals').insert({ category: animal.category, race: animal.race, age: animal.age, image: data, health: animal.health })
 }
 
+function addAdopt (userId, animalId, adopted) {
+    return db('adopts').insert({ user: userId, animal: animalId, adopted: adopted });
+}
+
 function getAnimalById (id) {
     return db('animals').where({ id: id }).first();
 }
 
 function getAllAnimals () {
     return db('animals').select("id", "category", "race", "age", "health");
+}
+
+function getUserById (userId) {
+    return db('users').select("id", "name", "lastname", "mail", "phone_number", "address").where({ id: userId }).first();
 }
 
 function getUserByLogin (username, password) {
@@ -44,6 +52,14 @@ function getAdminByLoginEmail (mail, password) {
     return db('employees').where({ mail: mail, password: password }).first();
 }
 
+function getAdoptionRequests () {
+    return db('adopts').where({ adopted: "wait" });
+}
+
+function getAnimalFromAdoptions (id) {
+    return db('adopts').where({ animal: id }).first();
+}
+
 
 module.exports = {
     find,
@@ -55,5 +71,9 @@ module.exports = {
     getUserByLogin,
     getUserByLoginEmail,
     getAdminByLogin,
-    getAdminByLoginEmail
+    getAdminByLoginEmail,
+    addAdopt,
+    getUserById,
+    getAdoptionRequests,
+    getAnimalFromAdoptions
 }
