@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import axios from 'axios';
 import { useContext } from 'react';
 import { AzilContext } from '../context/AzilContext';
 import Card from '@material-ui/core/Card';
@@ -17,8 +16,6 @@ import { useHistory } from 'react-router-dom';
 image={IMAGES_URL + "img/" + tile.id}
 */
 const IMAGES_URL = "http://localhost:6868/";
-
-const URL = "http://localhost:6868/";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -51,14 +48,6 @@ const Home = () => {
     const { animals } = useContext(AzilContext);
     const classes = useStyles();
     const history = useHistory();
-
-    useEffect(() => {
-        fetchData();
-    }, [])
-
-    const fetchData = async () => {
-        const result = await axios(URL + 'animals');
-    }
 
     return (
         <React.Fragment>

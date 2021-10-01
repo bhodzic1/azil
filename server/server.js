@@ -94,13 +94,38 @@ server.get('/requests', async (req, res) => {
         for (const element of requests) {
             let animalId = await db.getAnimalById(element.animal);
             let userId = await db.getUserById(element.user);
-            adoptionRequests.push({ animal: animalId, user: userId  })
+            adoptionRequests.push({ id: element.id, animal: animalId, user: userId  })
         };
         return res.status(200).json({ adoptionRequests });
     } catch (error) {
         console.log(error)
     }
 })
+
+server.put('/adopts', async (req, res) => {
+    const data = req.body;
+    try {
+       const result = await db.updateAdoption(data);
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+server.get('/adopts/:id', async (req, res) => {
+    try {
+        const adoptions = await db.getAdobtionsByUserId(req.params.id);
+        const userAdoptions = [];
+        for (const element of adoptions) {
+            let animalId = await db.getAnimalById(element.animal);
+            userAdoptions.push({ animal: animalId, status: element.adopted  })
+        };
+        console.log(userAdoptions)
+        return res.status(200).json({ userAdoptions });
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 
 server.post('/users', async (req, res) => {
     try {

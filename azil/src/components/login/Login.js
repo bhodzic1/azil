@@ -6,27 +6,14 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
 import { AzilContext } from '../../context/AzilContext';
+import { useHistory } from 'react-router';
 
 const LOGIN_URL = "http://localhost:6868/login";
-
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
-      </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -68,7 +55,8 @@ const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const classes = useStyles();
-    const { setRole, setUser, setLoggedIn, token, setToken } = useContext(AzilContext);
+    const { setRole, setUser, setLoggedIn } = useContext(AzilContext);
+    const history = useHistory();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -82,11 +70,13 @@ const Login = () => {
                 setLoggedIn(true);
                 setRole(response.data.user.role);
                 setUser(response.data.user.user);
-                const base64Url = response.data.user.token.split('.')[1];
+                /*const base64Url = response.data.user.token.split('.')[1];
                 const base64 = base64Url.replace('-', '+').replace('_', '/');
-                console.log(JSON.parse(window.atob(base64)));
+                console.log(JSON.parse(window.atob(base64)));*/
+                history.push('/');
+                window.location.reload(true);
             })
-            .catch(err => console.log(err));
+            .catch((response) => alert("Username or password are not correct!"));
     }
 
     return (

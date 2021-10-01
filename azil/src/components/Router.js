@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import App from '../App';
 import Home from '../pages/Home';
 import About from './About';
 import Login from './login/Login';
@@ -11,6 +10,7 @@ import AnimalDetail from './animal/AnimalDetail';
 import { AzilContext } from '../context/AzilContext';
 import Profile from './profile/Profile';
 import AdoptionRequests from './adoption-list/AdoptionRequests';
+import AdoptionList from './adoption-list/AdoptionList';
 
 
 const Router = () => {
@@ -29,6 +29,7 @@ const Router = () => {
                 { role === "Admin" && <Route path="/register-animal" component={ RegisterAnimal } /> }
                 <Route path="/:id/animal" component={ AnimalDetail } />
                 { role === "Admin" && <Route path="/:id/profile" component={ Profile } /> }
+                { role === "User" && <Route path="/adopts" component={AdoptionList} /> }
             </Switch>
         </BrowserRouter>
     )

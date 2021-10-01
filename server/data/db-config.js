@@ -60,6 +60,14 @@ function getAnimalFromAdoptions (id) {
     return db('adopts').where({ animal: id }).first();
 }
 
+function getAdobtionsByUserId (id) {
+    return db('adopts').where({ user: id });
+}
+
+function updateAdoption (data) {
+    return db('adopts').update({ adopted: data.status }).where({ id: data.id });
+}
+
 
 module.exports = {
     find,
@@ -75,5 +83,7 @@ module.exports = {
     addAdopt,
     getUserById,
     getAdoptionRequests,
-    getAnimalFromAdoptions
+    getAnimalFromAdoptions,
+    getAdobtionsByUserId,
+    updateAdoption
 }

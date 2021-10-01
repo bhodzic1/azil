@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 const AdoptionRequests = () => {
     const [requests, setRequests] = useState([]);
-    const { setAdoptionRequests } = useContext(AzilContext);
+    const { setAdoptionRequests, confirmAdoption } = useContext(AzilContext);
     const classes = useStyles();
 
     useEffect(() => {
@@ -48,14 +48,24 @@ const AdoptionRequests = () => {
         await axios.get(URL + "requests")
             .then((response) => {
                 setRequests(response.data.adoptionRequests);
-                setAdoptionRequests(response.data.adoptionRequests);
+                //setAdoptionRequests(response.data.adoptionRequests);
             })
+    }
+
+    const handleSubmit = (id, userId, animalId) => {
+        let data = new FormData();
+        data.append("id", id)
+        data.append("user", userId);
+        data.append("animal", animalId);
+        data.append("status", "confirmed");
+        confirmAdoption(data);
+        window.location.reload(true);
     }
 
     return (
         <ListGroup variant="flush">
             { requests.map((request) => (
-                <Card className={classes.card}>
+                <Card key={request.id} className={classes.card}>
                     <Card.Header>
                     <Card.Title>{ request.animal.category + " " + request.animal.race }</Card.Title>
                     </Card.Header>
@@ -64,7 +74,7 @@ const AdoptionRequests = () => {
                         <Card.Text className={classes.cardText}> Email: { request.user.mail } </Card.Text>
                         <Card.Text className={classes.cardText}> Phone number:  { request.user.phone } </Card.Text>
                         <Card.Text className={classes.cardText}> Address:  { request.user.address } </Card.Text>
-                        <Button className={classes.cardText} variant="primary">Confirm adoption</Button>
+                        <Button className={classes.cardText} variant="primary" onClick={() => handleSubmit(request.id, request.user.id, request.animal.id)}>Confirm adoption</Button>
                     </Card.Body>
                 </Card>
             ))}

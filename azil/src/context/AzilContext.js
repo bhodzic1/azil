@@ -18,9 +18,10 @@ export const AzilProvider = (props) => {
         if (token != "") {
             const base64Url = token.split('.')[1];
             const base64 = base64Url.replace('-', '+').replace('_', '/');
-            setUser(JSON.parse(window.atob(base64)).user);
+            let temp = JSON.parse(window.atob(base64)).user;
+            setUser(temp)
         }
-
+        
     }, [])
 
     const fetchData = async () => {
@@ -35,6 +36,10 @@ export const AzilProvider = (props) => {
     const logOut = () => {
         localStorage.setItem('role', '');
         localStorage.setItem('token', '');
+    }
+
+    const confirmAdoption = (data) => {
+        axios.put(URL + "adopts", data);
     }
 
     const addAdopt = async (animalId, adopted) => {
@@ -62,7 +67,8 @@ export const AzilProvider = (props) => {
         logOut,
         addAdopt,
         setAdoptionRequests,
-        adoptionRequests
+        adoptionRequests,
+        confirmAdoption
     }
 
     return (

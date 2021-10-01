@@ -42,7 +42,7 @@ const AnimalDetail = () => {
     const [category, setCategory] = useState("");
     const [age, setAge] = useState("");
     const [health, setHealth] = useState("");
-    const { addAdopt, loggedIn } = useContext(AzilContext);
+    const { addAdopt, loggedIn, role } = useContext(AzilContext);
     const classes = useStyles();
     
     useEffect(() => {
@@ -74,7 +74,7 @@ const AnimalDetail = () => {
                     <Card.Title>Zdravstveno stanje: </Card.Title>
                     <Card.Text> { health } </Card.Text>
                     
-                    { loggedIn && <Button variant="primary" className={classes.groupButton} onClick={() => addAdopt(id, "wait")} >Adopt</Button> }
+                    { loggedIn && role === "User" && <Button variant="primary" className={classes.groupButton} onClick={() => addAdopt(id, "wait")} >Adopt</Button> }
                 </Card.Body>
                 
             </Card>
