@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        border: '2px solid #360606',
+        border: '2px solid gray',
         padding: '20px',
         borderRadius: '15px'
     },
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.secondary.main,
     },
     form: {
-        width: '100%', // Fix IE 11 issue.
+        width: '100%',
         marginTop: theme.spacing(3),
     },
     submit: {
@@ -70,9 +70,6 @@ const Login = () => {
                 setLoggedIn(true);
                 setRole(response.data.user.role);
                 setUser(response.data.user.user);
-                /*const base64Url = response.data.user.token.split('.')[1];
-                const base64 = base64Url.replace('-', '+').replace('_', '/');
-                console.log(JSON.parse(window.atob(base64)));*/
                 history.push('/');
                 window.location.reload(true);
             })
@@ -124,13 +121,9 @@ const Login = () => {
                         onClick={handleSubmit}
                     >
                         Sign In
-          </Button>
+                    </Button>
                     <Grid container>
-                        {/*<Grid item xs>
-                            <Link href="#" variant="body2">
-                                Forgot password?
-              </Link>
-                        </Grid>*/}
+                        
                         <Grid item>
                             <Link href="/signup" variant="body2">
                                 {"Don't have an account? Sign Up"}
@@ -139,9 +132,6 @@ const Login = () => {
                     </Grid>
                 </form>
             </div>
-            {/*<Box mt={8}>
-                <Copyright />
-    </Box>*/}
         </Container>
     );
 }

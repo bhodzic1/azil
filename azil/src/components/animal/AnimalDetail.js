@@ -43,6 +43,7 @@ const AnimalDetail = () => {
     const [age, setAge] = useState("");
     const [health, setHealth] = useState("");
     const { addAdopt, loggedIn, role } = useContext(AzilContext);
+    const [status, setStatus] = useState("");
     const classes = useStyles();
     
     useEffect(() => {
@@ -50,7 +51,7 @@ const AnimalDetail = () => {
     }, [])
 
     const fetchData = async () => {
-        axios.get(`http://localhost:6868/animal/${id}`,)
+        await axios.get(`http://localhost:6868/animal/${id}`,)
         .then((response) => {
             setAnimal(response.data.animal)
             setRace(response.data.animal.race);
@@ -58,6 +59,11 @@ const AnimalDetail = () => {
             setAge(response.data.animal.age);
             setCategory(response.data.animal.category);
             setHealth(response.data.animal.health);
+        })
+
+        await axios.get(`http://localhost:6868/animal/${id}/status`,)
+        .then((response) => {
+            setStatus(response.data.animal.adopted)
         })
     }
 
@@ -73,10 +79,9 @@ const AnimalDetail = () => {
                     <Card.Text className={classes.cardText}> Age: { age.toString() } </Card.Text>
                     <Card.Title>Zdravstveno stanje: </Card.Title>
                     <Card.Text> { health } </Card.Text>
-                    
-                    { loggedIn && role === "User" && <Button variant="primary" className={classes.groupButton} onClick={() => addAdopt(id, "wait")} >Adopt</Button> }
+                    <Card.Text className={classes.cardText}> Status: { status === "Confirmed" ? "Taken" : status } </Card.Text>
+                    { status !== "Confirmed" && status !== "Requested" && loggedIn && role === "User" && <Button variant="primary" className={classes.groupButton} onClick={() => addAdopt(id, "Requested")} >Adopt</Button> }
                 </Card.Body>
-                
             </Card>
         </div>
     )

@@ -57,7 +57,7 @@ const AdoptionRequests = () => {
         data.append("id", id)
         data.append("user", userId);
         data.append("animal", animalId);
-        data.append("status", "confirmed");
+        data.append("status", "Confirmed");
         confirmAdoption(data);
         window.location.reload(true);
     }
@@ -75,6 +75,7 @@ const AdoptionRequests = () => {
                         <Card.Text className={classes.cardText}> Phone number:  { request.user.phone } </Card.Text>
                         <Card.Text className={classes.cardText}> Address:  { request.user.address } </Card.Text>
                         <Button className={classes.cardText} variant="primary" onClick={() => handleSubmit(request.id, request.user.id, request.animal.id)}>Confirm adoption</Button>
+                        <Button className={classes.cardText} variant="danger" onClick={() => handleSubmit(request.id, request.user.id, request.animal.id)}>Reject adoption</Button>
                     </Card.Body>
                 </Card>
             ))}

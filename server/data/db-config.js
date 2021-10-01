@@ -36,6 +36,14 @@ function getUserById (userId) {
     return db('users').select("id", "name", "lastname", "mail", "phone_number", "address").where({ id: userId }).first();
 }
 
+function getUserByUsername (username) {
+    return db('users').where({ username: username }).first();
+}
+
+function getUserByEmail (email) {
+    return db('users').where({ mail: email }).first();
+}
+
 function getUserByLogin (username, password) {
     return db('users').where({ username: username, password: password }).first();
 }
@@ -53,7 +61,7 @@ function getAdminByLoginEmail (mail, password) {
 }
 
 function getAdoptionRequests () {
-    return db('adopts').where({ adopted: "wait" });
+    return db('adopts').where({ adopted: "Requested" });
 }
 
 function getAnimalFromAdoptions (id) {
@@ -66,6 +74,10 @@ function getAdobtionsByUserId (id) {
 
 function updateAdoption (data) {
     return db('adopts').update({ adopted: data.status }).where({ id: data.id });
+}
+
+function deleteRequest (userId, animalId) {
+    return db('adopts').delete().where({ user: userId, animal: animalId });
 }
 
 
@@ -85,5 +97,8 @@ module.exports = {
     getAdoptionRequests,
     getAnimalFromAdoptions,
     getAdobtionsByUserId,
-    updateAdoption
+    updateAdoption,
+    getUserByUsername,
+    getUserByEmail,
+    deleteRequest
 }

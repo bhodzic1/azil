@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        border: '2px solid #360606',
+        border: '2px solid gray',
         padding: '20px',
         borderRadius: '15px'
     },
@@ -68,7 +68,7 @@ export default function RegisterAnimal  () {
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
-                <Typography component="h1" variant="h5" color={"#360606"}>
+                <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
                 <form className={classes.form} onSubmit={handleSubmit}>
@@ -144,7 +144,7 @@ export default function RegisterAnimal  () {
                     >
                         Sign Up
                     </Button>
-                    <Grid container justify="flex-end">
+                    <Grid container justifyContent="flex-end">
                         <Grid item>
                             <Link href="/login" variant="body2">
                                 Already have an account? Sign in

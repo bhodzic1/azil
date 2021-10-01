@@ -12,9 +12,6 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { useHistory } from 'react-router-dom';
 
-/* 
-image={IMAGES_URL + "img/" + tile.id}
-*/
 const IMAGES_URL = "http://localhost:6868/";
 
 const useStyles = makeStyles((theme) => ({
@@ -57,7 +54,7 @@ const Home = () => {
             <Grid item xs={12}>
                 <Grid container spacing={3}>
                     {animals.map((tile) => (
-                        <Grid item onClick={() => history.push(`/${tile.id}/animal`)}>
+                        <Grid key={tile.id} item onClick={() => history.push(`/${tile.id}/animal`)}>
                             <CardActionArea>
                         <Card className={classes.card}>
                                 <CardMedia

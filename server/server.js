@@ -119,7 +119,6 @@ server.get('/adopts/:id', async (req, res) => {
             let animalId = await db.getAnimalById(element.animal);
             userAdoptions.push({ animal: animalId, status: element.adopted  })
         };
-        console.log(userAdoptions)
         return res.status(200).json({ userAdoptions });
     } catch (error) {
         console.log(error)
@@ -129,7 +128,12 @@ server.get('/adopts/:id', async (req, res) => {
 
 server.post('/users', async (req, res) => {
     try {
-        const user = await db.addUser(req.body)
+        const emailExists = await db.getUserByEmail(req.body.mail)
+        const usernameExists = await db.getUserByUsername(req.body.username)
+        if ( emailExists == undefined && usernameExists == undefined ) {
+            const user = await db.addUser(req.body);
+            res.end("Successfully registered!")
+        } else res.end("User with that username or email already exists!");
     } catch (error) {
         console.log(error)
     }
@@ -145,6 +149,15 @@ server.post('/adopt', async (req, res) => {
             res.end("Animal already taken!");
         }
         
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+server.delete('/adopt/:userId/:animalId', async (req, res) => {
+    try {
+        await db.deleteRequest(req.params.userId, req.params.animalId)
+        res.end("Successfully canceled request!");
     } catch (error) {
         console.log(error)
     }
@@ -186,6 +199,21 @@ server.get('/animal/:id', async (req, res) => {
     try {
         const animal = await db.getAnimalById(id);
         return res.status(200).json({ animal });
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+server.get('/animal/:id/status', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const animal = await db.getAnimalFromAdoptions(id);
+        if (animal == undefined) {
+            let animal = {
+                "adopted" : "Available"
+            }
+            res.json({ animal })
+        } else res.status(200).json({ animal });
     } catch (error) {
         console.log(error)
     }

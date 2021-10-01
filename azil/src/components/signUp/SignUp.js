@@ -17,11 +17,9 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         color: 'white',
-        backgroundColor: '#360606',
         margin: theme.spacing(3, 0, 2),
         '&:hover': {
             color: "grey",
-            backgroundColor: '#360606', 
         },
     },
     paper: {
@@ -29,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        border: '2px solid #360606',
+        border: '2px solid gray',
         padding: '20px',
         borderRadius: '15px'
     },
@@ -69,15 +67,17 @@ export default function SignUp() {
             "password" : password
         }
         axios.post(URL + 'users', sendData)
-            .then()
-            .catch(err => console.log(err));
+            .then((response) => {
+                alert(response.data)
+            })
+            .catch((response) => alert(response.data));
     }
 
     return (
         <Container component="main" maxWidth="xs" className={classes.container}>
             <CssBaseline />
             <div className={classes.paper}>
-                <Typography component="h1" variant="h5" color={"#360606"}>
+                <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
                 <form className={classes.form} onSubmit={handleSubmit}>
@@ -184,7 +184,7 @@ export default function SignUp() {
                     >
                         Sign Up
                     </Button>
-                    <Grid container justify="flex-end">
+                    <Grid container justifyContent="flex-end">
                         <Grid item>
                             <Link href="/login" variant="body2">
                                 Already have an account? Sign in

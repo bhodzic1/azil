@@ -54,10 +54,24 @@ const AdoptionList = () => {
             })
     }
 
+    const cancelRequest = async (animalId) => {
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace('-', '+').replace('_', '/');
+        let user = JSON.parse(window.atob(base64)).user;
+        let data = new FormData();
+        data.append("userId", user.id);
+        data.append("animalId", animalId);
+        await axios.delete(URL + "adopt/" + user.id + "/" + animalId)
+            .then((response) => {
+                alert(response.data)
+            })
+        window.location.reload(true);
+    }
+
     return (
         <ListGroup variant="flush">
-            { adopts.map((adopt) => (
-                <Card className={classes.card}>
+            { adopts.map((adopt, index) => (
+                <Card key={index} className={classes.card}>
                     <Card.Header>
                     <Card.Title>{ adopt.animal.category + " " + adopt.animal.race }</Card.Title>
                     </Card.Header>
@@ -65,8 +79,8 @@ const AdoptionList = () => {
                         <Card.Text className={classes.cardText}> Category: { adopt.animal.category } </Card.Text>
                         <Card.Text className={classes.cardText}> Race: { adopt.animal.race } </Card.Text>
                         <Card.Text className={classes.cardText}> Age:  { adopt.animal.age } </Card.Text>
-                        <Card.Text className={classes.cardText}> Status:  { adopt.status === "wait" ? "Requested" : "Confirmed" } </Card.Text>
-                        { adopt.status === "wait" && <Button className={classes.cardText} variant="danger">Cancel adoption</Button> }
+                        <Card.Text className={classes.cardText}> Status:  { adopt.status } </Card.Text>
+                        { adopt.status === "Requested" && <Button className={classes.cardText} variant="danger" onClick={() => cancelRequest(adopt.animal.id)}>Cancel adoption</Button> }
                     </Card.Body>
                 </Card>
             ))}
