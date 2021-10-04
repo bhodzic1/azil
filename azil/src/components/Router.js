@@ -11,6 +11,7 @@ import { AzilContext } from '../context/AzilContext';
 import Profile from './profile/Profile';
 import AdoptionRequests from './adoption-list/AdoptionRequests';
 import AdoptionList from './adoption-list/AdoptionList';
+import AdoptionHistory from './adoption-list/AdoptionHistory';
 
 
 const Router = () => {
@@ -28,7 +29,7 @@ const Router = () => {
                 { !loggedIn && <Route path="/signup" component={ SignUp } /> }
                 { role === "Admin" && <Route path="/register-animal" component={ RegisterAnimal } /> }
                 <Route path="/:id/animal" component={ AnimalDetail } />
-                { role === "Admin" && <Route path="/:id/profile" component={ Profile } /> }
+                { role === "Admin" && <Route path="/adoption-history" component={ AdoptionHistory } /> }
                 { role === "User" && <Route path="/adopts" component={AdoptionList} /> }
             </Switch>
         </BrowserRouter>

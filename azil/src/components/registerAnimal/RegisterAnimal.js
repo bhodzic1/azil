@@ -69,7 +69,7 @@ export default function RegisterAnimal  () {
             <CssBaseline />
             <div className={classes.paper}>
                 <Typography component="h1" variant="h5">
-                    Sign up
+                    Animal registration
                 </Typography>
                 <form className={classes.form} onSubmit={handleSubmit}>
                     <Grid container spacing={2}>
@@ -142,15 +142,8 @@ export default function RegisterAnimal  () {
                         color="primary"
                         className={classes.submit}
                     >
-                        Sign Up
+                        Register animal
                     </Button>
-                    <Grid container justifyContent="flex-end">
-                        <Grid item>
-                            <Link href="/login" variant="body2">
-                                Already have an account? Sign in
-                            </Link>
-                        </Grid>
-                    </Grid>
                 </form>
             </div>
         </Container>

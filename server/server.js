@@ -125,6 +125,21 @@ server.get('/adopts/:id', async (req, res) => {
     }
 })
 
+server.get('/adopts', async (req, res) => {
+    try {
+        const requests = await db.getConfirmedAdoptions();
+        const adoptions = [];
+        for (const element of requests) {
+            let animalId = await db.getAnimalById(element.animal);
+            let userId = await db.getUserById(element.user);
+            adoptions.push({ id: element.id, animal: animalId, user: userId  })
+        };
+        return res.status(200).json({ adoptions });
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 
 server.post('/users', async (req, res) => {
     try {

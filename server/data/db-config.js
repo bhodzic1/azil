@@ -80,6 +80,9 @@ function deleteRequest (userId, animalId) {
     return db('adopts').delete().where({ user: userId, animal: animalId });
 }
 
+function getConfirmedAdoptions () {
+    return db('adopts').where({ adopted: "Confirmed" });
+}
 
 module.exports = {
     find,
@@ -100,5 +103,6 @@ module.exports = {
     updateAdoption,
     getUserByUsername,
     getUserByEmail,
-    deleteRequest
+    deleteRequest,
+    getConfirmedAdoptions
 }

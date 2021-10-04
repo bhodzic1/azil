@@ -14,8 +14,10 @@ const NavigationBar = () => {
           { loggedIn && role === 'User' && <Nav.Link href="/adopts">My adopts</Nav.Link> }
           { role === 'Admin' && <Nav.Link href="/requests">Adoption requests ({adoptionRequests.length})</Nav.Link> }
           { role === 'Admin' && <Nav.Link href="/register-animal">Animal registration</Nav.Link> }
+          { role === 'Admin' && <Nav.Link href="/adoption-history">Adoption history</Nav.Link> }
           { !loggedIn && <Nav.Link href="/login">Login</Nav.Link> }
           { loggedIn && <Nav.Link href="/" onClick={logOut}>Log out</Nav.Link> }
+
         </Nav>
       </Navbar.Collapse>
       </Container>

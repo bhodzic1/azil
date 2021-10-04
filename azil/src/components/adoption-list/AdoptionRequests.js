@@ -62,6 +62,17 @@ const AdoptionRequests = () => {
         window.location.reload(true);
     }
 
+    const handleReject = async (id, userId, animalId) => {
+        let data = new FormData();
+        data.append("userId", userId);
+        data.append("animalId", animalId);
+        await axios.delete(URL + "adopt/" + userId + "/" + animalId)
+            .then((response) => {
+                alert(response.data)
+            })
+        window.location.reload(true);
+    }
+
     return (
         <ListGroup variant="flush">
             { requests.map((request) => (
@@ -75,7 +86,7 @@ const AdoptionRequests = () => {
                         <Card.Text className={classes.cardText}> Phone number:  { request.user.phone } </Card.Text>
                         <Card.Text className={classes.cardText}> Address:  { request.user.address } </Card.Text>
                         <Button className={classes.cardText} variant="primary" onClick={() => handleSubmit(request.id, request.user.id, request.animal.id)}>Confirm adoption</Button>
-                        <Button className={classes.cardText} variant="danger" onClick={() => handleSubmit(request.id, request.user.id, request.animal.id)}>Reject adoption</Button>
+                        <Button className={classes.cardText} variant="danger" onClick={() => handleReject(request.id, request.user.id, request.animal.id)}>Reject adoption</Button>
                     </Card.Body>
                 </Card>
             ))}
